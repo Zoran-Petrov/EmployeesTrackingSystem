@@ -32,7 +32,7 @@ public class App extends Application {
 
         //loginScene
         Text textHeading = new Text("Влезте в системата като служител или администратор.");
-        textHeading.setFont(new Font("Arial", 25));
+        textHeading.setFont(new Font("Verdana", 23));
         HBox paneTop = new HBox(textHeading);
         paneTop.setAlignment(Pos.CENTER);
         paneTop.setPadding(new Insets(20, 10, 20, 10));
@@ -73,7 +73,7 @@ public class App extends Application {
         paneMain.setTop(paneTop);
         paneMain.setCenter(paneCenter);
         paneMain.setBottom(paneBottom);
-        paneMain.setPadding(new Insets(40, 10, 90, 10));
+        paneMain.setPadding(new Insets(50, 10, 90, 10));
 
         Scene scene = new Scene(paneMain);
         primaryStage.setScene(scene);
