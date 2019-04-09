@@ -14,14 +14,17 @@ import javafx.scene.text.*;
 import java.awt.*;
 
 public class App extends Application {
+    public static final String EMPLOYEES_FILE_NAME = "employees.txt";
+    public static final String ADMINS_FILE_NAME = "administrators.txt";
+
     public static void main(String[] args) {
         launch(args);
     }
     Stage stage;
     TextField textName;
     PasswordField textPassword;
-    CheckBox checkEmployee;
-    CheckBox checkAdmin;
+    RadioButton radioEmployee;
+    RadioButton radioAdmin;
     Button loginButton;
     Button clearButton;
 
@@ -37,9 +40,13 @@ public class App extends Application {
         paneTop.setAlignment(Pos.CENTER);
         paneTop.setPadding(new Insets(20, 10, 20, 10));
 
-        checkEmployee = new CheckBox("Служител");
-        checkAdmin = new CheckBox("Администратор");
-        HBox paneChecks = new HBox(10, checkEmployee, checkAdmin);
+        radioEmployee = new RadioButton("Служител");
+        radioAdmin = new RadioButton("Администратор");
+        ToggleGroup employeeOrAdmin = new ToggleGroup();
+        radioEmployee.setToggleGroup(employeeOrAdmin);
+        radioAdmin.setToggleGroup(employeeOrAdmin);
+        radioEmployee.setSelected(true);
+        HBox paneChecks = new HBox(10, radioEmployee, radioAdmin);
         paneChecks.setAlignment(Pos.CENTER);
 
         Label labelName = new Label("Име");
@@ -64,8 +71,8 @@ public class App extends Application {
         loginButton.setMinWidth(80);
         loginButton.setOnAction(e -> loginButtonOnClick() );
         clearButton = new Button("Изчисти");
-        loginButton.setMinWidth(80);
-        loginButton.setOnAction(e -> clearButtonOnClick() );
+        clearButton.setMinWidth(80);
+        clearButton.setOnAction(e -> clearButtonOnClick() );
         HBox paneBottom = new HBox(20, loginButton, clearButton);
         paneBottom.setAlignment(Pos.CENTER);
 
