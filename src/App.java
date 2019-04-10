@@ -52,7 +52,7 @@ public class App extends Application {
         Label labelName = new Label("Име");
         labelName.setPrefWidth(100);
         textName = new TextField();
-        textName.setPrefColumnCount(20);
+        textName.setPrefColumnCount(30);
         textName.setPromptText("Въведете вашето име.");
         HBox paneName = new HBox(-50,labelName, textName);
         paneName.setAlignment(Pos.CENTER);
@@ -60,7 +60,7 @@ public class App extends Application {
         Label labelPassword = new Label("Парола");
         labelPassword.setPrefWidth(100);
         textPassword = new PasswordField();
-        textPassword.setPrefColumnCount(20);
+        textPassword.setPrefColumnCount(30);
         textPassword.setPromptText("Въведете вашата парола.");
         HBox panePassword = new HBox(-50,labelPassword, textPassword);
         panePassword.setAlignment(Pos.CENTER);
@@ -88,9 +88,6 @@ public class App extends Application {
         primaryStage.setMinHeight(500);
         primaryStage.setMinWidth(900);
         primaryStage.show();
-
-
-
     }
 
 
