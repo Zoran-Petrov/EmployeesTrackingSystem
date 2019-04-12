@@ -44,7 +44,7 @@ public class App extends Application {
         textPassword.setText("");
     }
 
-    public void employeeScene() {
+    
         Text textHeadingEmployee = new Text("Създайте протокол за деня");
         textHeadingEmployee.setFont(new Font("Verdana", 23));
         HBox paneTopEmployee = new HBox(textHeadingEmployee);
@@ -89,5 +89,5 @@ public class App extends Application {
         paneMainEmployee.setBottom(paneBottomEmployee);
         paneMainEmployee.setPadding(new Insets(80, 10, 180, 10));
         employeeScene = new Scene(paneMainEmployee, 900, 500);
-    }
+    
 }
