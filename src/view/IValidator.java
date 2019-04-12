@@ -1,5 +1,6 @@
 package view;
 
 public interface IValidator {
-    String validateInput();
+    String validateLoginInput();
+    boolean validateEmployeeForm(String workedHours);
 }

@@ -1,17 +1,22 @@
-import javafx.application.*;
+import controller.AccountChecker;
+import controller.FileContentsWriter;
+import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.text.Font;
-import javafx.stage.*;
-import javafx.scene.*;
-import javafx.scene.layout.*;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.geometry.*;
-import javafx.scene.text.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import model.FXControlDataLoader;
+import view.DataValidator;
 
-import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class App extends Application {
     public static final String EMPLOYEES_FILE_NAME = "employees.txt";
@@ -20,14 +25,24 @@ public class App extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    String userName;
     Stage stage;
+    Scene loginScene;
+    Scene employeeScene;
     TextField textName;
     PasswordField textPassword;
     RadioButton radioEmployee;
     RadioButton radioAdmin;
     Button loginButton;
     Button clearButton;
-
+    ComboBox<String> comboClients;
+    TextField textWorkedHours;
+    Button saveProtocolButton;
+    Button toLogginScreenButton;
+    FXControlDataLoader loader;
+    Date date;
+    String dateString;
+    String userFullName;
 
     @Override
     public void start(Stage primaryStage) {
@@ -42,18 +57,19 @@ public class App extends Application {
 
         radioEmployee = new RadioButton("Служител");
         radioAdmin = new RadioButton("Администратор");
+        HBox paneChecks = new HBox(10, radioEmployee, radioAdmin);
+        paneChecks.setAlignment(Pos.CENTER);
         ToggleGroup employeeOrAdmin = new ToggleGroup();
         radioEmployee.setToggleGroup(employeeOrAdmin);
         radioAdmin.setToggleGroup(employeeOrAdmin);
         radioEmployee.setSelected(true);
-        HBox paneChecks = new HBox(10, radioEmployee, radioAdmin);
-        paneChecks.setAlignment(Pos.CENTER);
 
         Label labelName = new Label("Име");
         labelName.setPrefWidth(100);
         textName = new TextField();
+        textName.setText("");
         textName.setPrefColumnCount(30);
-        textName.setPromptText("Въведете вашето име.");
+        textName.setPromptText("Въведете трите си имена.");
         HBox paneName = new HBox(-50,labelName, textName);
         paneName.setAlignment(Pos.CENTER);
 
@@ -61,7 +77,8 @@ public class App extends Application {
         labelPassword.setPrefWidth(100);
         textPassword = new PasswordField();
         textPassword.setPrefColumnCount(30);
-        textPassword.setPromptText("Въведете вашата парола.");
+        textPassword.setText("");
+        textPassword.setPromptText("Поне 6 знака, малка и голяма буква, число, специален сивол.");
         HBox panePassword = new HBox(-50,labelPassword, textPassword);
         panePassword.setAlignment(Pos.CENTER);
         VBox paneCenter = new VBox(20, paneChecks, paneName, panePassword);
@@ -70,6 +87,7 @@ public class App extends Application {
         loginButton = new Button("ОК");
         loginButton.setMinWidth(80);
         loginButton.setOnAction(e -> loginButtonOnClick() );
+        loginButton.setDefaultButton(true);
         clearButton = new Button("Изчисти");
         clearButton.setMinWidth(80);
         clearButton.setOnAction(e -> clearButtonOnClick() );
@@ -82,12 +100,10 @@ public class App extends Application {
         paneMain.setBottom(paneBottom);
         paneMain.setPadding(new Insets(50, 10, 90, 10));
 
-        Scene scene = new Scene(paneMain);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Система за следене на работното време");
-        primaryStage.setMinHeight(500);
-        primaryStage.setMinWidth(900);
-        primaryStage.show();
+        loginScene = new Scene(paneMain, 900, 500);
+        stage.setScene(loginScene);
+        stage.setTitle("Система за следене на работното време");
+        stage.show();
     }
 
 
