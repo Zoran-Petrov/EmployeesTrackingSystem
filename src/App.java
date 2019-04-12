@@ -107,10 +107,13 @@ public class App extends Application {
     private void loginButtonOnClick() {
         boolean accountExists;
         String fileToReadFrom;
+        String userType;
         if (radioEmployee.isSelected()) {
             fileToReadFrom = EMPLOYEES_FILE_NAME;
+            userType = "empolyee";
         } else {
             fileToReadFrom = ADMINS_FILE_NAME;
+            userType = "administrator";
         }
         DataValidator validator = new DataValidator(textName.getText(), textPassword.getText());
         String validatorResult = validator.validateLoginInput();
@@ -122,6 +125,7 @@ public class App extends Application {
             AccountChecker accountChecker = new AccountChecker(textName.getText(), textPassword.getText(), fileToReadFrom);
             accountExists = accountChecker.fetchAccount();
             if (accountExists) {
+                userFullName = textName.getText();
                 stage.setScene(employeeScene);
                 stage.setTitle("Система за следене на работното време");
                 stage.show();
