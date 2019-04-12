@@ -1,7 +1,5 @@
 import controller.AccountChecker;
-import controller.FileContentsWriter;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,7 +13,6 @@ import javafx.stage.Stage;
 import model.FXControlDataLoader;
 import view.DataValidator;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class App extends Application {
@@ -25,6 +22,7 @@ public class App extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
     String userName;
     Stage stage;
     Scene loginScene;
@@ -70,7 +68,7 @@ public class App extends Application {
         textName.setText("");
         textName.setPrefColumnCount(30);
         textName.setPromptText("Въведете трите си имена.");
-        HBox paneName = new HBox(-50,labelName, textName);
+        HBox paneName = new HBox(-50, labelName, textName);
         paneName.setAlignment(Pos.CENTER);
 
         Label labelPassword = new Label("Парола");
@@ -79,18 +77,18 @@ public class App extends Application {
         textPassword.setPrefColumnCount(30);
         textPassword.setText("");
         textPassword.setPromptText("Поне 6 знака, малка и голяма буква, число, специален сивол.");
-        HBox panePassword = new HBox(-50,labelPassword, textPassword);
+        HBox panePassword = new HBox(-50, labelPassword, textPassword);
         panePassword.setAlignment(Pos.CENTER);
         VBox paneCenter = new VBox(20, paneChecks, paneName, panePassword);
         paneCenter.setAlignment(Pos.CENTER);
 
         loginButton = new Button("ОК");
         loginButton.setMinWidth(80);
-        loginButton.setOnAction(e -> loginButtonOnClick() );
+        loginButton.setOnAction(e -> loginButtonOnClick());
         loginButton.setDefaultButton(true);
         clearButton = new Button("Изчисти");
         clearButton.setMinWidth(80);
-        clearButton.setOnAction(e -> clearButtonOnClick() );
+        clearButton.setOnAction(e -> clearButtonOnClick());
         HBox paneBottom = new HBox(20, loginButton, clearButton);
         paneBottom.setAlignment(Pos.CENTER);
 
@@ -106,12 +104,38 @@ public class App extends Application {
         stage.show();
     }
 
-
     private void loginButtonOnClick() {
-        //TODO
-    }
-    private void clearButtonOnClick() {
-        //TODO
+        boolean accountExists;
+        String fileToReadFrom;
+        if (radioEmployee.isSelected()) {
+            fileToReadFrom = EMPLOYEES_FILE_NAME;
+        } else {
+            fileToReadFrom = ADMINS_FILE_NAME;
+        }
+        DataValidator validator = new DataValidator(textName.getText(), textPassword.getText());
+        String validatorResult = validator.validateLoginInput();
+        if (!validatorResult.equals("OK")) {
+            Alert a = new Alert(Alert.AlertType.WARNING, validatorResult);
+            a.setTitle("Некоректни входни данни!");
+            a.showAndWait();
+        } else {
+            AccountChecker accountChecker = new AccountChecker(textName.getText(), textPassword.getText(), fileToReadFrom);
+            accountExists = accountChecker.fetchAccount();
+            if (accountExists) {
+                stage.setScene(employeeScene);
+                stage.setTitle("Система за следене на работното време");
+                stage.show();
+            } else {
+                Alert a = new Alert(Alert.AlertType.WARNING, "Акаунтът не е намерен.");
+                a.setTitle("Търсене на акаунт");
+                a.showAndWait();
+            }
+        }
     }
 
+
+    private void clearButtonOnClick() {
+        textName.setText("");
+        textPassword.setText("");
+    }
 }
